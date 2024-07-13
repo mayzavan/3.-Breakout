@@ -1,0 +1,137 @@
+[gd_scene load_steps=14 format=3 uid="uid://ddkcid3uf8n7f"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_ayd4t"]
+[ext_resource type="PackedScene" uid="uid://d2x1w5i55bgi8" path="res://scenes/brick.tscn" id="2_12tvh"]
+[ext_resource type="PackedScene" uid="uid://5gr8aohkw2r6" path="res://scenes/paddle.tscn" id="3_i03fp"]
+[ext_resource type="PackedScene" uid="uid://li056ws2vyuh" path="res://scenes/ball.tscn" id="4_2lbkh"]
+[ext_resource type="PackedScene" uid="uid://d0tw8n3u1chp8" path="res://scenes/heart.tscn" id="5_x6xhh"]
+[ext_resource type="FontFile" uid="uid://cwo2tc2qtq41u" path="res://karmatic-arcade/ka1.ttf" id="6_is7qo"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_s3niy"]
+color = Color(0.980392, 0.580392, 0.584314, 1)
+thickness = 5
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_2gd68"]
+color = Color(0.980392, 0.580392, 0.584314, 1)
+thickness = 5
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_dcpv1"]
+color = Color(0.980392, 0.580392, 0.584314, 1)
+thickness = 5
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_coa28"]
+b = Vector2(800, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_s05bu"]
+b = Vector2(0, 600)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_fx7t1"]
+a = Vector2(800, 0)
+b = Vector2(800, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dujp"]
+size = Vector2(1153.5, 105)
+
+[node name="main" type="Node" groups=["bricks"]]
+script = ExtResource("1_ayd4t")
+brick_scene = ExtResource("2_12tvh")
+paddle_scene = ExtResource("3_i03fp")
+ball_scene = ExtResource("4_2lbkh")
+heart_scene = ExtResource("5_x6xhh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.160784, 0.0862745, 0.113725, 1)
+
+[node name="Top" type="Panel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxLine_s3niy")
+
+[node name="Right" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = 1.5708
+theme_override_styles/panel = SubResource("StyleBoxLine_2gd68")
+
+[node name="Left" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = 1.5708
+theme_override_styles/panel = SubResource("StyleBoxLine_dcpv1")
+
+[node name="ball" parent="." instance=ExtResource("4_2lbkh")]
+
+[node name="worldboundaries" type="StaticBody2D" parent="."]
+
+[node name="top" type="CollisionShape2D" parent="worldboundaries"]
+shape = SubResource("SegmentShape2D_coa28")
+
+[node name="left" type="CollisionShape2D" parent="worldboundaries"]
+shape = SubResource("SegmentShape2D_s05bu")
+
+[node name="right" type="CollisionShape2D" parent="worldboundaries"]
+shape = SubResource("SegmentShape2D_fx7t1")
+
+[node name="diearea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="diearea"]
+position = Vector2(579.25, 728.5)
+shape = SubResource("RectangleShape2D_7dujp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_left = 964.0
+offset_top = 14.0
+offset_right = 1135.0
+offset_bottom = 71.0
+theme_override_fonts/font = ExtResource("6_is7qo")
+theme_override_font_sizes/font_size = 50
+text = "1500"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="gamelost" type="CanvasGroup" parent="."]
+top_level = true
+z_index = 1
+
+[node name="Panel" type="Panel" parent="gamelost"]
+modulate = Color(0.0862745, 0.0862745, 0.0862745, 0.92549)
+offset_right = 1149.0
+offset_bottom = 644.0
+
+[node name="Label" type="Label" parent="gamelost"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("6_is7qo")
+theme_override_font_sizes/font_size = 91
+text = "GAME LOST"
+
+[node name="Label2" type="Label" parent="gamelost"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("6_is7qo")
+theme_override_font_sizes/font_size = 46
+text = "Press Space to play again"
+
+[node name="Label3" type="Label" parent="gamelost"]
+modulate = Color(0.980392, 0.580392, 0.584314, 1)
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("6_is7qo")
+theme_override_font_sizes/font_size = 51
+text = "Highscore : 1000"
+vertical_alignment = 1
+
+[connection signal="score" from="ball" to="." method="scoring"]
+[connection signal="body_entered" from="diearea" to="." method="_on_diearea_body_entered"]

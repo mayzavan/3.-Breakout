@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0tw8n3u1chp8"]
+
+[ext_resource type="Texture2D" uid="uid://b8wo044rktk2a" path="res://art/heart.png" id="1_md4b8"]
+
+[node name="heart" type="Node2D" groups=["hearts"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_md4b8")
