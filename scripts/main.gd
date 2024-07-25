@@ -79,6 +79,7 @@ func _on_diearea_body_entered(body):
 		lifes -=1
 		game_started = false
 		ball.game_started = false
+		ball.speed = screen_size.y /1.5
 		paddle.position = Vector2(screen_size.x/2 , screen_size.y*9/10)
 		ball.position = Vector2(paddle.position.x, paddle.position.y - 30)
 		show_hearts()

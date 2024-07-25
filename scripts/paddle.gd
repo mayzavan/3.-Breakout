@@ -7,7 +7,7 @@ var screen_size
 
 func _ready():
 	screen_size = get_window().size
-	speed = screen_size.x /1.5
+	speed = screen_size.x/1.15
 	game_lost = false
 
 func _process(delta):
